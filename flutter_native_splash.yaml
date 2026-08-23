@@ -1,0 +1,17 @@
+flutter_native_splash:
+
+  # Android এবং iOS native splash-এর background।
+  # আমরা pure white ব্যবহার করছি না, কারণ app-এর overall
+  # design language soft এবং warm রাখতে চাই।
+  color: "#F7F8F6"
+
+  # iOS-এর জন্য background color।
+  color_ios: "#F7F8F6"
+
+  # Android 12+ এর জন্য আলাদা configuration দরকার।
+  android_12:
+    color: "#F7F8F6"
+
+  # Native splash-এ status/navigation bar-এর
+  # visual treatment consistent রাখছি।
+  fullscreen: false

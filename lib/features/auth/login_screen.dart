@@ -5,6 +5,7 @@ import 'package:pulse_health/features/auth/forgot_password_screen.dart';
 import 'package:pulse_health/features/auth/providers/login_provider.dart';
 import 'package:pulse_health/features/auth/signup_screen.dart';
 import 'package:pulse_health/features/auth/widgets/auth_text_field.dart';
+import 'package:pulse_health/features/navigation/main_navigation_screen.dart';
 
 // 1️⃣ নতুন provider তৈরি করো
 // 2️⃣ Login Screen-এ Riverpod connect করব
@@ -94,11 +95,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // আপাতত শুধু message দেখাচ্ছি।
     //
     // পরে এখানে HomeScreen-এ navigate করব।
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Login successful!',
-        ),
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   const SnackBar(
+    //     content: Text(
+    //       'Login successful!',
+    //     ),
+    //   ),
+    // );
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context){
+          return const MainNavigationScreen();
+        }
       ),
     );
     return;

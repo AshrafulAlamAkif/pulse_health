@@ -4,6 +4,7 @@ import 'package:pulse_health/features/home/widgets/emergency_card.dart';
 import 'package:pulse_health/features/home/widgets/home_header.dart';
 import 'package:pulse_health/features/home/widgets/nearby_healthcare_section.dart';
 import 'package:pulse_health/features/home/widgets/quick_access_section.dart';
+import 'package:pulse_health/features/home/widgets/your_health_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // পরের ধাপে এখানে Your Health আসবে।
+              const YourHealthSection(),
             ],
           ),
         ),

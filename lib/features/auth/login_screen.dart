@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/auth/providers/login_provider.dart';
+import 'package:pulse_health/features/auth/signup_screen.dart';
 import 'package:pulse_health/features/auth/widgets/auth_text_field.dart';
 
 // 1️⃣ নতুন provider তৈরি করো
@@ -384,9 +385,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         WidgetSpan(
                           child: GestureDetector(
                             onTap: loginState.isLoading 
-                            ? null : () {
-                              // পরে Register screen-এ যাবে।
-                            },
+                                ? null : () {
+                                  // পরে Register screen-এ যাবে।
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context){
+                                      return const SignupScreen();
+                                    })
+                                  );
+                                },
                             child: const Text(
                               'Sign up',
                               style: TextStyle(

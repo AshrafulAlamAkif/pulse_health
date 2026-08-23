@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
+import 'package:pulse_health/features/auth/forgot_password_screen.dart';
 import 'package:pulse_health/features/auth/providers/login_provider.dart';
 import 'package:pulse_health/features/auth/signup_screen.dart';
 import 'package:pulse_health/features/auth/widgets/auth_text_field.dart';
@@ -242,8 +243,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: loginState.isLoading
+                        ? null
+                        :() {
                       // পরবর্তীতে Forgot Password screen।
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context){
+                          return const ForgotPasswordScreen();
+                        }
+                        )
+                      );
                     },
                     child: const Text(
                       'Forgot password?',

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/home/widgets/emergency_card.dart';
 import 'package:pulse_health/features/home/widgets/home_header.dart';
+import 'package:pulse_health/features/home/widgets/home_search_bar.dart';
+import 'package:pulse_health/features/home/widgets/location_selector.dart';
 import 'package:pulse_health/features/home/widgets/nearby_healthcare_section.dart';
 import 'package:pulse_health/features/home/widgets/quick_access_section.dart';
 import 'package:pulse_health/features/home/widgets/your_health_section.dart';
@@ -30,7 +32,15 @@ class HomeScreen extends StatelessWidget {
               // HomeScreen-এর code unnecessarily বড় না হয়।
               const HomeHeader(),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: 20),
+
+              const HomeSearchBar(),
+
+              const SizedBox(height: 14),
+
+              const LocationSelector(),
+
+              const SizedBox(height: 24),
 
               const EmergencyCard(),
 

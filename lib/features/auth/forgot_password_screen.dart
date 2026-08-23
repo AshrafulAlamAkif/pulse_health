@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/auth/login_screen.dart';
+import 'package:pulse_health/features/auth/otp_verification_screen.dart';
 import 'package:pulse_health/features/auth/providers/forgot_password_provider.dart';
 import 'package:pulse_health/features/auth/widgets/auth_text_field.dart';
 
-class ForgotPasswordScreen
-    extends ConsumerStatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({
     super.key,
   });
@@ -17,35 +17,32 @@ class ForgotPasswordScreen
   }
 }
 
-class _ForgotPasswordScreenState
-    extends ConsumerState<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   // Email input control করার জন্য controller।
-  late final TextEditingController _emailController;
+  late final TextEditingController _emailphoneController;
 
   // Form validation-এর জন্য।
-  final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
 
-    _emailController = TextEditingController();
+    _emailphoneController = TextEditingController();
   }
 
   @override
   void dispose() {
     // Screen destroy হলে controller dispose করছি।
-    _emailController.dispose();
+    _emailphoneController.dispose();
 
     super.dispose();
   }
 
-  /// Password reset request পাঠানোর method।
-  Future<void> _sendResetRequest() async {
+  /// OTP request করার method।
+  Future<void> _sendOtp() async {
     // প্রথমে form validation করছি।
-    final isValid =
-        _formKey.currentState?.validate();
+    final isValid = _formKey.currentState?.validate();
 
     if (isValid != true) {
       return;
@@ -53,16 +50,14 @@ class _ForgotPasswordScreenState
 
     // Riverpod notifier access করছি।
     //
-    // read() ব্যবহার করছি কারণ এখানে
-    // provider-এর method call করতে চাই।
+    // read() ব্যবহার করছি কারণ এখানে provider-এর method call করতে চাই।
     final notifier = ref.read(
       forgotPasswordProvider.notifier,
     );
 
-    // Password reset request পাঠাচ্ছি।
-    final isSuccessful =
-        await notifier.sendResetRequest(
-      email: _emailController.text.trim(),
+    // OTP request করছি।
+    final isSuccessful = await notifier.sendOtp(
+      identifier: _emailphoneController.text.trim(),
     );
 
     if (!mounted) {
@@ -70,16 +65,23 @@ class _ForgotPasswordScreenState
     }
 
     if (isSuccessful) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context){
+            return const OtpVerificationScreen();
+          },
+        ),
+      );
       // এখনো real OTP/API নেই।
       //
       // তাই আপাতত success message দেখাচ্ছি।
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Password reset instructions sent.',
-          ),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       'Password reset instructions sent.',
+      //     ),
+      //   ),
+      // );
 
       return;
     }
@@ -115,12 +117,7 @@ class _ForgotPasswordScreenState
           key: _formKey,
 
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              24,
-              24,
-              24,
-              32,
-            ),
+            padding: const EdgeInsets.fromLTRB( 24, 24, 24, 32),
 
             child: Column(
               crossAxisAlignment:
@@ -173,7 +170,7 @@ class _ForgotPasswordScreenState
                 const SizedBox(height: 16),
 
                 const Text(
-                  'No worries. Enter your email and we’ll help you get back into your account.',
+                  'Enter your Phone number or email. We’ll send you a verification code.',
                   style: TextStyle(
                     fontSize: 16,
                     height: 1.5,
@@ -183,24 +180,23 @@ class _ForgotPasswordScreenState
 
                 const SizedBox(height: 40),
 
-                // Email field।
+                // // Phone অথবা email input field।
                 AuthTextField(
-                  controller: _emailController,
-                  label: 'Email',
-                  hintText: 'Enter your registered email',
+                  controller: _emailphoneController,
+                  label: 'Phone or Email',
+                  hintText: 'Enter phone number or email',
                   prefixIcon:
                       Icons.email_outlined,
-                  keyboardType:
-                      TextInputType.emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null ||
                         value.trim().isEmpty) {
-                      return 'Please enter your email';
+                      return 'Please enter your phone or email';
                     }
 
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
+                    // if (!value.contains('@')) {
+                    //   return 'Please enter a valid email';
+                    // }
 
                     return null;
                   },
@@ -208,7 +204,7 @@ class _ForgotPasswordScreenState
 
                 const SizedBox(height: 24),
 
-                // Send reset button।
+                // OTP request করার button।
                 SizedBox(
                   width: double.infinity,
                   height: 58,
@@ -216,7 +212,7 @@ class _ForgotPasswordScreenState
                     // Request চলাকালীন button disable।
                     onPressed: state.isLoading
                         ? null
-                        : _sendResetRequest,
+                        : _sendOtp,
 
                     style:
                         ElevatedButton.styleFrom(
@@ -229,10 +225,8 @@ class _ForgotPasswordScreenState
                         alpha: 0.6,
                       ),
                       elevation: 0,
-                      shape:
-                          RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
                       ),
                     ),
 
@@ -247,22 +241,18 @@ class _ForgotPasswordScreenState
                             ),
                           )
                         : const Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment
-                                    .center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Send reset link',
+                                'Send OTP',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight:
-                                      FontWeight.w600,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               SizedBox(width: 10),
                               Icon(
-                                Icons
-                                    .arrow_forward_rounded,
+                                Icons.arrow_forward_rounded,
                               ),
                             ],
                           ),
@@ -288,8 +278,7 @@ class _ForgotPasswordScreenState
                             );
                           },
                     icon: const Icon(
-                      Icons
-                          .arrow_back_rounded,
+                      Icons.arrow_back_rounded,
                       size: 18,
                     ),
                     label: const Text(

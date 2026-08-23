@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
+import 'package:pulse_health/features/auth/login_screen.dart';
+import 'package:pulse_health/features/onboarding/providers/onboarding_provider.dart';
 import 'package:pulse_health/features/onboarding/widgets/onboarding_indicator.dart';
 import 'package:pulse_health/features/onboarding/widgets/onboarding_page.dart';
 
-
-class OnboardingScreen extends StatefulWidget {
+/// Onboarding screen.
+///
+/// এখানে Riverpod ব্যবহার করছি কারণ onboarding complete/skip
+/// হওয়ার information অন্য screen-এরও প্রয়োজন হবে।
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({
     super.key,
   });
 
   @override
-  State<OnboardingScreen> createState() {
+  ConsumerState<OnboardingScreen> createState() {
     return _OnboardingScreenState();
   }
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   // PageView-এর page control করার জন্য controller ব্যবহার করছি।
   late final PageController _pageController;
 
@@ -39,10 +45,39 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void dispose() {
     // Screen destroy হলে controller-ও destroy করতে হবে।
     _pageController.dispose();
-
     super.dispose();
   }
 
+  /// Onboarding complete করার method।
+  Future<void> _completeOnboarding() async {
+    // Riverpod-এর মাধ্যমে onboarding state update করছি।
+    //
+    // completeOnboarding() method:
+    // 1. SharedPreferences-এ true save করবে
+    // 2. Riverpod state-কে true করবে
+    await ref
+        .read(onboardingProvider.notifier)
+        .completeOnboarding();
+
+    if (!mounted) {
+      return;
+    }
+
+    // Onboarding শেষ হওয়ার পরে Login screen-এ যাচ্ছি।
+    //
+    // pushReplacement ব্যবহার করছি যাতে user Back চাপলে
+    // আবার Onboarding screen-এ ফিরে না যায়।
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return const LoginScreen();
+        },
+      ),
+    );
+  }
+
+
+  /// Next button-এর কাজ।
   void _goToNextPage() {
     // যদি শেষ page-এ না থাকি,
     // তাহলে পরের page-এ যাব।
@@ -53,19 +88,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         curve: Curves.easeInOut,
       );
+      return;
+    }
+    // শেষ page হলে onboarding complete করছি।
+    _completeOnboarding();
+  }
 
+
+  /// User Skip চাপলে onboarding complete হিসেবে
+  /// mark করে Login screen-এ পাঠাচ্ছি।
+  Future<void> _skipOnboarding() async {
+    // Skip করলেও user আর onboarding দেখতে চায় না।
+    //
+    // তাই এটাকেও completed হিসেবে save করছি।
+    await ref
+        .read(onboardingProvider.notifier)
+        .completeOnboarding();
+
+    if (!mounted) {
       return;
     }
 
-    // শেষ page হলে পরবর্তীতে LoginScreen-এ navigate করব।
-    //
-    // এখন শুধু demonstration হিসেবে print করছি।
-    debugPrint('Onboarding completed');
-  }
-
-  void _skipOnboarding() {
-    // পরে এখানে LoginScreen-এ navigate করব।
-    debugPrint('Onboarding skipped');
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return const LoginScreen();
+        },
+      ),
+    );
   }
 
   @override

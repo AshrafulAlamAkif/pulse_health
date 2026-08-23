@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
+import 'package:pulse_health/features/home/widgets/emergency_card.dart';
 import 'package:pulse_health/features/home/widgets/home_header.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,7 +29,9 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              // পরের ধাপে এখানে Emergency section আসবে।
+              const EmergencyCard(),
+
+              const SizedBox(height: 32),
 
               // পরের ধাপে এখানে Quick Access আসবে।
 

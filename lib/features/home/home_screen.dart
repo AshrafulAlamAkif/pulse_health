@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/home/widgets/blood_requests_section.dart';
 import 'package:pulse_health/features/home/widgets/emergency_card.dart';
+import 'package:pulse_health/features/home/widgets/health_tip_card.dart';
 import 'package:pulse_health/features/home/widgets/home_header.dart';
 import 'package:pulse_health/features/home/widgets/home_search_bar.dart';
 import 'package:pulse_health/features/home/widgets/location_selector.dart';
@@ -60,6 +61,12 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 32),
 
               const YourHealthSection(),
+
+              const SizedBox(height: 32),
+
+              const HealthTipCard(),
+
+              const SizedBox(height: 12),
             ],
           ),
         ),

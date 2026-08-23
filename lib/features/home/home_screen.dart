@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/home/widgets/emergency_card.dart';
 import 'package:pulse_health/features/home/widgets/home_header.dart';
+import 'package:pulse_health/features/home/widgets/quick_access_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -33,8 +34,10 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // পরের ধাপে এখানে Quick Access আসবে।
+              const QuickAccessSection(),
 
+              const SizedBox(height: 32),
+              
               // পরের ধাপে এখানে Near You আসবে।
 
               // পরের ধাপে এখানে Your Health আসবে।

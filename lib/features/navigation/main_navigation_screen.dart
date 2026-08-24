@@ -3,6 +3,7 @@ import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/blood/blood_screen.dart';
 import 'package:pulse_health/features/explore/explore_screen.dart';
 import 'package:pulse_health/features/home/home_screen.dart';
+import 'package:pulse_health/features/profile/profile_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({
@@ -35,10 +36,7 @@ class _MainNavigationScreenState
     //   icon: Icons.bloodtype_rounded,
     // ),
     BloodScreen(),
-    _PlaceholderScreen(
-      title: 'Profile',
-      icon: Icons.person_rounded,
-    ),
+    ProfileScreen(),
   ];
 
   @override

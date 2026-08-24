@@ -3,6 +3,7 @@ import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/blood/widgets/blood_header.dart';
 import 'package:pulse_health/features/blood/widgets/blood_quick_actions.dart';
 import 'package:pulse_health/features/blood/widgets/blood_search_card.dart';
+import 'package:pulse_health/features/blood/widgets/nearby_blood_requests.dart';
 
 class BloodScreen extends StatelessWidget {
   const BloodScreen({
@@ -58,6 +59,10 @@ class BloodScreen extends StatelessWidget {
               const SizedBox(height: 18),
 
               const BloodQuickActions(),
+
+              const SizedBox(height: 18),
+
+              const NearbyBloodRequests(),
 
               const SizedBox(height: 12),
 

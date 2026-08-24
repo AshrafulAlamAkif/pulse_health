@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/blood/widgets/blood_header.dart';
+import 'package:pulse_health/features/blood/widgets/blood_quick_actions.dart';
 import 'package:pulse_health/features/blood/widgets/blood_search_card.dart';
 
 class BloodScreen extends StatelessWidget {
@@ -56,7 +57,10 @@ class BloodScreen extends StatelessWidget {
               
               const SizedBox(height: 18),
 
-              // পরের ধাপে এখানে blood group card,
+              const BloodQuickActions(),
+
+              const SizedBox(height: 12),
+
               // search এবং quick actions যোগ করব।
             ],
           ),

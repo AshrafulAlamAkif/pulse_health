@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
 import 'package:pulse_health/features/explore/widgets/explore_search_bar.dart';
+import 'package:pulse_health/features/explore/widgets/healthcare_categories_section.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({
@@ -45,7 +46,10 @@ class ExploreScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // Healthcare category section।
+              const HealthcareCategoriesSection(),
+
+              const SizedBox(height: 32),
+
               //
               // পরের ধাপে এখানে Hospitals, Doctors,
               // Pharmacies এবং Diagnostic Centers যোগ করব।

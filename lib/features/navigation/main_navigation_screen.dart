@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulse_health/app/theme/app_colors.dart';
+import 'package:pulse_health/features/explore/explore_screen.dart';
 import 'package:pulse_health/features/home/home_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -27,10 +28,7 @@ class _MainNavigationScreenState
   // তাই আপাতত placeholder screen ব্যবহার করছি।
   final List<Widget> _screens = const [
     HomeScreen(),
-    _PlaceholderScreen(
-      title: 'Explore',
-      icon: Icons.explore_rounded,
-    ),
+    ExploreScreen(),
     _PlaceholderScreen(
       title: 'Blood',
       icon: Icons.bloodtype_rounded,
